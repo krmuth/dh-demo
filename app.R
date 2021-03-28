@@ -151,6 +151,23 @@ server <- function(input, output) {
     mutate(section = row_number() %/% 10) %>%
     filter(section > 0)
   
+  word_cors <- section_words %>%
+    filter(n() >= 20) %>%
+    pairwise_cor(word, section, sort = TRUE)
+  
+  word_cors %>%
+    filter(item1 %in% c("time", "hand", "looked", "day")) %>%
+    group_by(item1) %>%
+    slice(1:6) %>%
+    ungroup() %>%
+    mutate(item2 = reorder(item2, correlation)) %>%
+    ggplot(aes(item2, correlation)) +
+    geom_bar(stat = "identity") +
+    facet_wrap(~ item1, scales = "free") +
+    coord_flip()
+
+    
+  
   # word_pairs <- section_words %>%
   #   pairwise_count(word, section, sort = TRUE)
   # 
