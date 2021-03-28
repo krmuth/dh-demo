@@ -79,7 +79,7 @@ tidy_moll_flanders <- original_books %>%
                   sliderInput("chart_max",
                               label = "Number of words",
                               min = 10, max = 30, value = 20)),
-         tabPanel("Correlations", plotOutput("network")))
+         tabPanel("Correlations", plotOutput("cor")))
        )
      
    )
@@ -147,7 +147,19 @@ server <- function(input, output) {
   
   # Correlation tab ----
   
-  section_words <- tidy_books %>%
+  # Select dataset
+  
+  output$cor <- renderPlot({
+  
+  books <- switch(input$var, 
+                  "All" = tidy_books,
+                  "Moll Flanders" = tidy_moll_flanders,
+                  "Emma" = tidy_emma,
+                  "Jane Eyre" = tidy_jane_eyre,
+                  "Bleak House" = tidy_bleak_house,
+                  "Heart of Darkness" = tidy_heart_of_darkness)
+  
+  section_words <- books %>%
     mutate(section = row_number() %/% 10) %>%
     filter(section > 0)
   
@@ -166,7 +178,7 @@ server <- function(input, output) {
     facet_wrap(~ item1, scales = "free") +
     coord_flip()
 
-    
+  })
   
   # word_pairs <- section_words %>%
   #   pairwise_count(word, section, sort = TRUE)
