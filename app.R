@@ -68,7 +68,8 @@ tidy_moll_flanders <- tidy_books %>%
                   sliderInput("chart_max",
                               label = "Number of words",
                               min = 10, max = 30, value = 20)),
-         tabPanel("Correlations", plotOutput("pairs")))
+         tabPanel("Correlations", plotOutput("pairs")),
+         tabPanel("Clusters", plotOutput("network")))
        )
      
    )
@@ -156,39 +157,57 @@ server <- function(input, output) {
     group_by(word) %>%
     filter(n() >= 20) %>%
     pairwise_cor(word, section, sort = TRUE)
-
+  
   word_cors %>%
-    filter(correlation > .15) %>%
-    graph_from_data_frame() %>%
-    ggraph(layout = "fr") +
-    geom_edge_link(aes(edge_alpha = correlation), color = "#c0c0c0", show.legend = FALSE) +
-    geom_node_point(color = "#c0c0c0", size = 2) +
-    geom_node_text(aes(label = name), repel = TRUE) +
-    theme_void()
+    filter(item1 %in% c("time", "day", "looked", "house")) %>%
+    group_by(item1) %>%
+    slice(1:6) %>%
+    ungroup() %>%
+    mutate(item2 = reorder(item2, correlation)) %>%
+    ggplot(aes(item2, correlation)) +
+    geom_bar(stat = "identity") +
+    facet_wrap(~ item1, scales = "free") +
+    coord_flip()
 
   })
+
+
+
+
+  # Cluster tab ----
   
-  # word_cors %>%
-  #   filter(item1 %in% c("time", "day", "looked", "house")) %>%
-  #   group_by(item1) %>%
-  #   slice(1:6) %>%
-  #   ungroup() %>%
-  #   mutate(item2 = reorder(item2, correlation)) %>%
-  #   ggplot(aes(item2, correlation)) +
-  #   geom_bar(stat = "identity") +
-  #   facet_wrap(~ item1, scales = "free") +
-  #   coord_flip()
-  # 
-  # })
-
-
+  output$network <- renderPlot({
+    
+    # Select dataset
+    
+    books <- switch(input$var,
+                    "All" = tidy_books,
+                    "Moll Flanders" = tidy_moll_flanders,
+                    "Emma" = tidy_emma,
+                    "Jane Eyre" = tidy_jane_eyre,
+                    "Bleak House" = tidy_bleak_house,
+                    "Heart of Darkness" = tidy_heart_of_darkness)
+    
+    section_words <- books %>%
+      mutate(section = row_number() %/% 10) %>%
+      filter(section > 0)
+    
+    word_cors <- section_words %>%
+      group_by(word) %>%
+      filter(n() >= 20) %>%
+      pairwise_cor(word, section, sort = TRUE)
+    
+    word_cors %>%
+      filter(correlation > .15) %>%
+      graph_from_data_frame() %>%
+      ggraph(layout = "fr") +
+      geom_edge_link(aes(edge_alpha = correlation), color = "#c0c0c0", show.legend = FALSE) +
+      geom_node_point(color = "#c0c0c0", size = 2) +
+      geom_node_text(aes(label = name), repel = TRUE) +
+      theme_void()
+    
+  })
   
-  # word_pairs <- section_words %>%
-  #   pairwise_count(word, section, sort = TRUE)
-  # 
-  # word_pairs %>%
-  #   filter(item1 == "time")
-
   
   # Bigram tab ----
 
