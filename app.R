@@ -7,6 +7,7 @@ library(tidyr)
 library(wordcloud2)
 library(igraph)
 library(ggraph)
+library(widyr)
 
 data(stop_words)
 
@@ -14,26 +15,36 @@ data(stop_words)
 
 original_books <- gutenberg_download(c(370, 158, 1260, 1023, 219), meta_field = c("title"))
 
+# Set subsets for for input selection
+
 tidy_books <- original_books %>%
   unnest_tokens(word, text) %>%
   anti_join(stop_words)
 
-# Set subsets for for input selection
+tidy_emma <- original_books %>%
+  filter(title == "Emma") %>% 
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words)
 
-emma <- tidy_books %>%
-  filter(title == "Emma")
+tidy_bleak_house <- original_books %>%
+  filter(title == "Bleak House") %>%
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words)
 
-bleak_house <- tidy_books %>%
-  filter(title == "Bleak House")
+tidy_heart_of_darkness <- original_books %>%
+  filter(title == "Heart of Darkness") %>%
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words)
 
-heart_of_darkness <- tidy_books %>%
-  filter(title == "Heart of Darkness")
+tidy_jane_eyre <- original_books %>%
+  filter(title == "Jane Eyre: An Autobiography") %>%
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words)
 
-jane_eyre <- tidy_books %>%
-  filter(title == "Jane Eyre: An Autobiography")
-
-moll_flanders <- tidy_books %>%
-  filter(title == "The Fortunes and Misfortunes of the Famous Moll Flanders")
+tidy_moll_flanders <- original_books %>%
+  filter(title == "The Fortunes and Misfortunes of the Famous Moll Flanders") %>%
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words)
 
 
 
@@ -87,11 +98,11 @@ server <- function(input, output) {
     
     books <- switch(input$var, 
                     "All" = tidy_books,
-                    "Moll Flanders" = moll_flanders,
-                    "Emma" = emma,
-                    "Jane Eyre" = jane_eyre,
-                    "Bleak House" = bleak_house,
-                    "Heart of Darkness" = heart_of_darkness)
+                    "Moll Flanders" = tidy_moll_flanders,
+                    "Emma" = tidy_emma,
+                    "Jane Eyre" = tidy_jane_eyre,
+                    "Bleak House" = tidy_bleak_house,
+                    "Heart of Darkness" = tidy_heart_of_darkness)
     
     # Count and order frequencies
     
@@ -117,11 +128,11 @@ server <- function(input, output) {
     
     books <- switch(input$var, 
                     "All" = tidy_books,
-                    "Moll Flanders" = moll_flanders,
-                    "Emma" = emma,
-                    "Jane Eyre" = jane_eyre,
-                    "Bleak House" = bleak_house,
-                    "Heart of Darkness" = heart_of_darkness)
+                    "Moll Flanders" = tidy_moll_flanders,
+                    "Emma" = tidy_emma,
+                    "Jane Eyre" = tidy_jane_eyre,
+                    "Bleak House" = tidy_bleak_house,
+                    "Heart of Darkness" = tidy_heart_of_darkness)
     
     # Count and sort frequencies, render bar chart
     
@@ -133,6 +144,19 @@ server <- function(input, output) {
       geom_col() +
       labs(y = NULL)
   })
+  
+  # Correlation tab ----
+  
+  section_words <- tidy_books %>%
+    mutate(section = row_number() %/% 10) %>%
+    filter(section > 0)
+  
+  # word_pairs <- section_words %>%
+  #   pairwise_count(word, section, sort = TRUE)
+  # 
+  # word_pairs %>%
+  #   filter(item1 == "time")
+
   
   # Bigram tab ----
 
