@@ -8,9 +8,7 @@ library(wordcloud2)
 library(igraph)
 library(ggraph)
 
-
 data(stop_words)
-
 
 # Load and preprocess text ----
 
@@ -138,34 +136,34 @@ server <- function(input, output) {
   
   # Bigram tab ----
 
-  output$network <- renderPlot({
-    
+  # output$network <- renderPlot({
+  #   
     # Prepare data for bigram graph
     
-    books_bigrams <- original_books %>%
-      unnest_tokens(bigram, text, token = "ngrams", n = 2)
-    
-    bigrams_separated <- books_bigrams %>%
-      separate(bigram, c("word1", "word2"), sep = " ")
-    
-    bigrams_filtered <- bigrams_separated %>%
-      filter(!word1 %in% stop_words$word) %>%
-      filter(!word2 %in% stop_words$word)
-    
-    bigram_counts <- bigrams_filtered %>%
-      count(word1, word2, sort = TRUE)
-    
-    bigram_graph <- bigram_counts %>%
-      filter(n > 16) %>%
-      graph_from_data_frame()
-    
-    bigram_graph %>%
-      ggraph(layout = "fr") +
-      geom_edge_link(color = "#c0c0c0") +
-      geom_node_point(color = "#c0c0c0", size = 2) +
-      geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
-      theme_void()
-  })
+  #   books_bigrams <- original_books %>%
+  #     unnest_tokens(bigram, text, token = "ngrams", n = 2)
+  #   
+  #   bigrams_separated <- books_bigrams %>%
+  #     separate(bigram, c("word1", "word2"), sep = " ")
+  #   
+  #   bigrams_filtered <- bigrams_separated %>%
+  #     filter(!word1 %in% stop_words$word) %>%
+  #     filter(!word2 %in% stop_words$word)
+  #   
+  #   bigram_counts <- bigrams_filtered %>%
+  #     count(word1, word2, sort = TRUE)
+  #   
+  #   bigram_graph <- bigram_counts %>%
+  #     filter(n > 16) %>%
+  #     graph_from_data_frame()
+  #   
+  #   bigram_graph %>%
+  #     ggraph(layout = "fr") +
+  #     geom_edge_link(color = "#c0c0c0") +
+  #     geom_node_point(color = "#c0c0c0", size = 2) +
+  #     geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
+  #     theme_void()
+  # })
 }
 
 # Run app ----
