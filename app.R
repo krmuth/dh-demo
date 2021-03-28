@@ -141,7 +141,7 @@ server <- function(input, output) {
     # Select dataset
   
   books <- switch(input$var,
-                  "All" = tidy_moll_flanders,
+                  "All" = tidy_books,
                   "Moll Flanders" = tidy_moll_flanders,
                   "Emma" = tidy_emma,
                   "Jane Eyre" = tidy_jane_eyre,
@@ -161,8 +161,8 @@ server <- function(input, output) {
     filter(correlation > .15) %>%
     graph_from_data_frame() %>%
     ggraph(layout = "fr") +
-    geom_edge_link(aes(edge_alpha = correlation), show.legend = FALSE) +
-    geom_node_point(color = "lightblue", size = 5) +
+    geom_edge_link(aes(edge_alpha = correlation), color = "#c0c0c0", show.legend = FALSE) +
+    geom_node_point(color = "#c0c0c0", size = 2) +
     geom_node_text(aes(label = name), repel = TRUE) +
     theme_void()
 
