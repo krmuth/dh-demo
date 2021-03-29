@@ -1,4 +1,5 @@
 library(dplyr)
+library(curl)
 library(gutenbergr)
 library(tidytext)
 library(stringr)
@@ -48,7 +49,7 @@ tidy_moll_flanders <- tidy_books %>%
        
        selectInput("var",
                    label = "Choose a novel to view.",
-                   choices = c("All", "Moll Flanders", "Emma", "Jane Eyre", "Bleak House", "Heart of Darkness"),
+                   choices = c("Moll Flanders", "Emma", "Jane Eyre", "Bleak House", "Heart of Darkness"),
                    selected = "All"),
      ),
      
@@ -87,7 +88,6 @@ server <- function(input, output) {
     # Select dataset
     
     books <- switch(input$var, 
-                    "All" = tidy_books,
                     "Moll Flanders" = tidy_moll_flanders,
                     "Emma" = tidy_emma,
                     "Jane Eyre" = tidy_jane_eyre,
@@ -117,7 +117,6 @@ server <- function(input, output) {
     # Select dataset
     
     books <- switch(input$var, 
-                    "All" = tidy_books,
                     "Moll Flanders" = tidy_moll_flanders,
                     "Emma" = tidy_emma,
                     "Jane Eyre" = tidy_jane_eyre,
@@ -142,7 +141,6 @@ server <- function(input, output) {
     # Select dataset
   
   books <- switch(input$var,
-                  "All" = tidy_books,
                   "Moll Flanders" = tidy_moll_flanders,
                   "Emma" = tidy_emma,
                   "Jane Eyre" = tidy_jane_eyre,
@@ -181,7 +179,6 @@ server <- function(input, output) {
     # Select dataset
     
     books <- switch(input$var,
-                    "All" = tidy_books,
                     "Moll Flanders" = tidy_moll_flanders,
                     "Emma" = tidy_emma,
                     "Jane Eyre" = tidy_jane_eyre,
@@ -209,36 +206,6 @@ server <- function(input, output) {
   })
   
   
-  # Bigram tab ----
-
-  # output$network <- renderPlot({
-  #   
-    # Prepare data for bigram graph
-    
-  #   books_bigrams <- original_books %>%
-  #     unnest_tokens(bigram, text, token = "ngrams", n = 2)
-  #   
-  #   bigrams_separated <- books_bigrams %>%
-  #     separate(bigram, c("word1", "word2"), sep = " ")
-  #   
-  #   bigrams_filtered <- bigrams_separated %>%
-  #     filter(!word1 %in% stop_words$word) %>%
-  #     filter(!word2 %in% stop_words$word)
-  #   
-  #   bigram_counts <- bigrams_filtered %>%
-  #     count(word1, word2, sort = TRUE)
-  #   
-  #   bigram_graph <- bigram_counts %>%
-  #     filter(n > 16) %>%
-  #     graph_from_data_frame()
-  #   
-  #   bigram_graph %>%
-  #     ggraph(layout = "fr") +
-  #     geom_edge_link(color = "#c0c0c0") +
-  #     geom_node_point(color = "#c0c0c0", size = 2) +
-  #     geom_node_text(aes(label = name), vjust = 1, hjust = 1) +
-  #     theme_void()
-  # })
 }
 
 # Run app ----
