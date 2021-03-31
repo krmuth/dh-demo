@@ -11,7 +11,7 @@ The dataset comprises five public domain novels from the Level 1 module Intro to
 The app produces four visualisations. 
 -wordcloud (wordcloud2)
 -word frequency (ggplot2)
--word correlations (ggoplot2)
+-word correlations (ggplot2)
 -word cluster network (igraph, ggraph)
 
 Data is rendered dynamically with user input. 
