@@ -14,11 +14,11 @@ data(stop_words)
 
 original_books <- gutenberg_download(c(370, 158, 1260, 1023, 219), meta_field = c("title"))
 
-# Set subsets for for input selection
-
 tidy_books <- original_books %>%
   unnest_tokens(word, text) %>%
   anti_join(stop_words)
+
+# Set subsets for for input selection
 
 tidy_emma <- tidy_books %>%
   filter(title == "Emma")  
