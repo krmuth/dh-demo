@@ -5,7 +5,7 @@ This Shiny application demonstrates some basic manipulations in text analysis fo
 The dataset comprises five public domain novels from the Level 1 module Intro to the Novel.
 - *The Fortunes and Misfortunes of the Famous Moll Flanders*
 - *Emma* 
-- *Jane Eyre: An Autobiographyd*
+- *Jane Eyre: An Autobiography*
 - *Bleak House*
 - *Heart of Darkness*  
 
@@ -17,5 +17,5 @@ The app produces four visualisations.
 
 Data is rendered dynamically from user input. 
 
-<https://katie-muth.shinyapps.io/dh-demo/>
+[Run in normal display mode] (https://katie-muth.shinyapps.io/dh-demo/?showcase=0)
 
