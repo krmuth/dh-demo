@@ -48,7 +48,7 @@ tidy_moll_flanders <- tidy_books %>%
        selectInput("var",
                    label = "Choose a novel to view.",
                    choices = c("Moll Flanders", "Emma", "Jane Eyre", "Bleak House", "Heart of Darkness"),
-                   selected = "All"),
+                   selected = "Moll Flanders"),
      ),
      
      mainPanel(
