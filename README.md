@@ -17,7 +17,7 @@ The app produces four visualisations
 * word correlations (ggplot2)
 * word cluster network (igraph, ggraph)
 
-Data is rendered dynamically from user input. 
+Visualisations are rendered dynamically from user input. 
 
 [Run in normal display mode](https://katie-muth.shinyapps.io/dh-demo/?showcase=0)
 
