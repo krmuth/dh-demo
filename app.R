@@ -68,7 +68,14 @@ tidy_moll_flanders <- tidy_books %>%
                               label = "Number of words",
                               min = 10, max = 30, value = 20)),
          tabPanel("Correlations", plotOutput("pairs")),
-         tabPanel("Clusters", plotOutput("network")))
+         tabPanel("Clusters", plotOutput("network")), 
+       br(),
+       br(),
+       div(p(strong("Built by"), a("Katie Muth", href = "https://github.com/krmuth"), "with R, Shiny, and Project Gutenberg",
+           style="text-align: right;"),
+           p(strong("Packages:"), "dplyr, gutenbergr, tidytext, ggplot2, wordcloud2, igraph, ggraph, widyr"),
+           style="text-align: right;")
+        )
        )
      
    )
