@@ -56,7 +56,7 @@ tidy_moll_flanders <- tidy_books %>%
        br(),
        br(),
        br(),
-       div(p(strong("Built by"), a("Katie Muth", href = "https://github.com/krmuth"), "with", a("RStudio", href = "https://www.rstudio.com/"), a("Shiny", href = "https://shiny.rstudio.com/"), "and", a("Project Gutenberg", href = "https://www.gutenberg.org/")),
+       div(p(strong("Built by"), a("Katie Muth", href = "https://github.com/krmuth"), "with", a("RStudio,", href = "https://www.rstudio.com/"), a("Shiny,", href = "https://shiny.rstudio.com/"), "and", a("Project Gutenberg", href = "https://www.gutenberg.org/")),
            p(strong("R Packages:"), "dplyr, gutenbergr, tidytext, ggplot2, wordcloud2, igraph, ggraph, widyr"),
            ) #close div
      ), # close sidebarPanel
