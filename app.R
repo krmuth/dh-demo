@@ -49,13 +49,22 @@ tidy_moll_flanders <- tidy_books %>%
                    label = "Choose a novel to view.",
                    choices = c("Moll Flanders", "Emma", "Jane Eyre", "Bleak House", "Heart of Darkness"),
                    selected = "Moll Flanders"),
-     ),
+       br(),
+       br(),
+       br(),
+       br(),
+       br(),
+       br(),
+       br(),
+       div(p(strong("Built by"), a("Katie Muth", href = "https://github.com/krmuth"), "with", a("RStudio", href = "https://www.rstudio.com/"), a("Shiny", href = "https://shiny.rstudio.com/"), "and", a("Project Gutenberg", href = "https://www.gutenberg.org/")),
+           p(strong("R Packages:"), "dplyr, gutenbergr, tidytext, ggplot2, wordcloud2, igraph, ggraph, widyr"),
+           ) #close div
+     ), # close sidebarPanel
      
      mainPanel(
        tabsetPanel(
          tabPanel("Wordcloud", 
                   wordcloud2Output("cloud"),
-                  br(),
                   br(),
                   sliderInput("cloud_max",
                               label = "Number of words",
@@ -63,34 +72,18 @@ tidy_moll_flanders <- tidy_books %>%
          tabPanel("Common words",
                   plotOutput("plot"),
                   br(),
-                  br(),
                   sliderInput("chart_max",
                               label = "Number of words",
                               min = 10, max = 30, value = 20)),
-         tabPanel("Correlations", plotOutput("pairs"),
-                  br(),
-                  br(),
-                  br(),
-                  br(),
-                  br(),
-                  br(),),
-         tabPanel("Clusters", plotOutput("network"), 
-                  br(),
-                  br(),
-                  br(),
-                  br(),
-                  br(),
-                  br(),), 
+         tabPanel("Correlations", plotOutput("pairs")),
+         tabPanel("Clusters", plotOutput("network")) 
 
-       div(p(strong("Built by"), a("Katie Muth", href = "https://github.com/krmuth"), "with R, Shiny, and Project Gutenberg",
-           style="text-align: right;"),
-           p(strong("Packages:"), "dplyr, gutenbergr, tidytext, ggplot2, wordcloud2, igraph, ggraph, widyr"),
-           style="text-align: right;")
-        )
-       )
+
+        ) # close tabsetPanel
+       ) # close mainPanel
      
-   )
-)
+   ) # close sidebarLayout
+) # close fluidPage
  
 
 # Server logic ----
